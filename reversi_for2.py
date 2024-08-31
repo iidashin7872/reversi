@@ -2,11 +2,13 @@ import tkinter
 import tkinter.messagebox
 from enum import Enum
 
+FS = ("Times New Roman", 20)
+FL = ("Times New Roman", 80)
 BOARD_SIZE = 8 # 盤面の大きさ
-CANVAS_WIDTH = 640 # 盤面の横幅(px)
-CANVAS_HEIGHT = 640 # 盤面の縦幅(px)
-SQUARE_WIDTH = 80 # マスの横幅(px)
-SQUARE_HEIGHT = 80 # マスの縦幅(px)
+CANVAS_WIDTH = 560 # 盤面の横幅(px)
+CANVAS_HEIGHT = 560 # 盤面の縦幅(px)
+SQUARE_WIDTH = CANVAS_WIDTH // BOARD_SIZE # マスの横幅(px)
+SQUARE_HEIGHT = CANVAS_HEIGHT // BOARD_SIZE # マスの縦幅(px)
 
 BLACK = 1 # 黒い石
 WHITE = 2 # 白い石
@@ -45,6 +47,7 @@ def click(e): # クリックされた時に呼び出し
 
 def display_board(): # 盤面を表示する関数
     cvs.delete("all")
+    cvs.create_text(SQUARE_WIDTH*4, CANVAS_HEIGHT+30, text=msg, fill="silver", font=FS) # 下部にメッセージを表示
     
     for i in range(BOARD_SIZE):
         X = i * SQUARE_WIDTH
@@ -66,8 +69,8 @@ def display_board(): # 盤面を表示する関数
             
             # ヒントを描写
             if placeable_square_num(x, y, COLOR_LIST[turn]) > 0 and mc == 0:
-                if proc == 1:
-                    cvs.create_oval(X+10, Y+10, X+SQUARE_WIDTH-10, Y+SQUARE_HEIGHT-10, fill="gold", width=2)
+                if proc == Phase.MAIN:
+                    cvs.create_oval(X+30, Y+30, X+SQUARE_WIDTH-30, Y+SQUARE_HEIGHT-30, fill="gold", width=0)
     cvs.update()
 
 def init_board(): # 盤面を初期化する関数
@@ -161,15 +164,27 @@ def main():
     display_board()
 
     if proc == Phase.STANDBY:
-        init_board()
-        proc = Phase.MAIN
+        cvs.create_text(SQUARE_WIDTH*4, SQUARE_HEIGHT*3, text="Reversi", fill="gold", font=FL)
+        cvs.create_text(SQUARE_WIDTH*4, SQUARE_HEIGHT*5+35, text="Start", fill="silver", font=FS)
+        if mc == 1:
+            mc = 0
+            if (mx == 3 or mx == 4) and my == 5:
+                init_board()
+                proc = Phase.MAIN
+    
     elif proc == Phase.MAIN:
+        if turn == 0:
+            msg = "BLACK's Turn"
+        else:
+            msg = "WHITE's Turn"
         if mc == 1:
             if placeable_square_num(mx, my, COLOR_LIST[turn]) > 0:
                 place_disc(mx, my, COLOR_LIST[turn])
                 proc = Phase.END
             mc = 0
+        
     elif proc == Phase.END:
+        msg = ""
         turn = 1 - turn
         if placeable_square_existence(BLACK) == False and placeable_square_existence(WHITE) == False:
             space = 0
