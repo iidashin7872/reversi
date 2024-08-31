@@ -240,7 +240,7 @@ def main(): # リバーシを進行する関数
     display_board()
 
     if proc == Phase.STANDBY: # ゲーム開始
-        msg = "先手 or 後手?"
+        msg = "先手 or 後手？"
         cvs.create_text(SQUARE_WIDTH*4, SQUARE_HEIGHT*3, text="Reversi", fill="gold", font=FL)
         cvs.create_text(SQUARE_WIDTH*2, SQUARE_HEIGHT*5+35, text="先手(黒)", fill="lime", font=FS)
         cvs.create_text(SQUARE_WIDTH*6, SQUARE_HEIGHT*5+35, text="後手(白)", fill="lime", font=FS)
