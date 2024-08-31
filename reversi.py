@@ -5,6 +5,7 @@ import random
 
 FS = ("Times New Roman", 20)
 FL = ("Times New Roman", 80)
+
 BOARD_SIZE = 8 # 盤面の大きさ
 CANVAS_WIDTH = 560 # 盤面の横幅(px)
 CANVAS_HEIGHT = 560 # 盤面の縦幅(px)
