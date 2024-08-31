@@ -85,10 +85,10 @@ def init_board(): # 盤面を初期化する関数
     for y in range(BOARD_SIZE):
         for x in range(BOARD_SIZE):
             board[y][x] = 0
-        board[3][4] = BLACK
-        board[4][3] = BLACK
-        board[3][3] = WHITE
-        board[4][4] = WHITE
+    board[3][4] = BLACK
+    board[4][3] = BLACK
+    board[3][3] = WHITE
+    board[4][4] = WHITE
 
 def place_disc(x, y, color): # 石を置く関数
     board[y][x] = color
@@ -197,7 +197,7 @@ def simulate(color): # 現在の盤面からランダムに置く試行をする
             k = random.randint(0, (len(placeable_square_X)-1))
             x = placeable_square_X[k]
             y = placeable_square_Y[k]
-            place_disc(x, y , color)
+            place_disc(x, y, color)
 
 def computer(color, loops): # CPUが打つ手を探索する関数
     global msg
@@ -244,6 +244,7 @@ def main(): # リバーシを進行する関数
         cvs.create_text(SQUARE_WIDTH*4, SQUARE_HEIGHT*3, text="Reversi", fill="gold", font=FL)
         cvs.create_text(SQUARE_WIDTH*2, SQUARE_HEIGHT*5+35, text="先手(黒)", fill="lime", font=FS)
         cvs.create_text(SQUARE_WIDTH*6, SQUARE_HEIGHT*5+35, text="後手(白)", fill="lime", font=FS)
+        
         if mc == 1:
             mc = 0
             if (mx == 1 or mx == 2) and my == 5:
@@ -312,7 +313,7 @@ root = tkinter.Tk() # ウィンドウオブジェクト
 root.title("Reversi") # ウィンドウタイトル
 root.resizable(False, False) # ウィンドウのサイズ変更不可
 root.bind("<Button>", click) # マウスをクリックしたときにクリック関数を呼び出し
-cvs = tkinter.Canvas(width=CANVAS_WIDTH, height=CANVAS_HEIGHT+60, bg="green") #キャンバス(640x700, green)
+cvs = tkinter.Canvas(width=CANVAS_WIDTH, height=CANVAS_HEIGHT+60, bg="green") # キャンバス
 cvs.pack() # ウィンドウにキャンバスを設置
 root.after(100, main)
 root.mainloop() # ウィンドウを表示
